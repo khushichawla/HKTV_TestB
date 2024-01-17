@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  title: Shipping API
+  version: 1.0.0
+paths:
+  /api/shipping/fee:
+    post:
+      summary: Calculate shipping fee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      length:
+                        type: number
+                      width:
+                        type: number
+                      height:
+                        type: number
+                      weight:
+                        type: number
+                      quantity:
+                        type: number
+                  minItems: 1
+              required:
+                - items
+                - temperatureCondition
+                - items.length
+                - items.width
+                - items.height
+                - items.weight
+                - items.quantity
+                - temperatureCondition
+              example:
+                items:
+                  - length: 10
+                    width: 8
+                    height: 5
+                    weight: 2.5
+                    quantity: 3
+                  - length: 15
+                    width: 12
+                    height: 6
+                    weight: 4.2
+                    quantity: 2
+                temperatureCondition: ambient
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  shippingFee:
+                    type: number
+              example:
+                shippingFee: 25.75
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
