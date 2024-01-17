@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shipping Fee Calculator</title>
+  <style>
+    h1 {
+      text-align: center;
+    }
+
+    #shippingFee {
+      font-weight: bold;
+      color: blue; /* Change to the desired color */
+      text-align: center;
+    }
+  </style>
+  <script>
+    function calculateShippingFee() {
+      // Get input values from the form
+      var temperatureCondition = document.getElementById('temperatureCondition').value;
+      var items = [];
+
+      // Get the list of items and their dimensions
+      var itemElements = document.getElementsByClassName('item');
+      for (var i = 0; i < itemElements.length; i++) {
+        var itemElement = itemElements[i];
+        var length = parseFloat(itemElement.getElementsByClassName('length')[0].value);
+        var width = parseFloat(itemElement.getElementsByClassName('width')[0].value);
+        var height = parseFloat(itemElement.getElementsByClassName('height')[0].value);
+        var weight = parseFloat(itemElement.getElementsByClassName('weight')[0].value);
+        var quantity = parseInt(itemElement.getElementsByClassName('quantity')[0].value);
+
+        // Calculate shipping fee for the current item
+        var volumetricWeight = (length * width * height) / 5000;
+        var applicableWeight = Math.max(volumetricWeight, weight);
+
+        var shippingFee = 0;
+        if (applicableWeight <= 5) {
+          if (temperatureCondition === 'ambient') {
+            shippingFee = 10;
+          } else if (temperatureCondition === 'chill') {
+            shippingFee = 20;
+          }
+        } else {
+          if (temperatureCondition === 'ambient') {
+            shippingFee = 15;
+          } else if (temperatureCondition === 'chill') {
+            shippingFee = 30;
+          }
+        }
+
+        shippingFee *= quantity;
+
+        // Add the item and its shipping fee to the list
+        items.push({ length: length, width: width, height: height, weight: weight, quantity: quantity, shippingFee: shippingFee });
+      }
+
+      // Calculate the total cost
+      var totalCost = items.reduce(function (sum, item) {
+        return sum + item.shippingFee;
+      }, 0);
+
+      // Display the calculated shipping fee and total cost to the user
+      var shippingFeeText = '<strong>Shipping Fees:</strong><br>';
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
+        shippingFeeText += 'Item ' + (i + 1) + ': $' + item.shippingFee.toFixed(2) + '<br>';
+      }
+      shippingFeeText += '<br><strong>Total Cost:</strong> $' + totalCost.toFixed(2);
+      document.getElementById('shippingFee').innerHTML = shippingFeeText;
+    }
+
+    function addItem() {
+  // Create a new item row in the form
+  var itemRow = document.createElement('div');
+  itemRow.classList.add('item');
+
+  var itemNumber = document.getElementsByClassName('item').length + 1;
+
+  var lengthInput = document.createElement('input');
+  lengthInput.type = 'number';
+  lengthInput.classList.add('length');
+  lengthInput.required = true;
+  itemRow.appendChild(lengthInput);
+
+  var widthInput = document.createElement('input');
+  widthInput.type = 'number';
+  widthInput.classList.add('width');
+  widthInput.required = true;
+  itemRow.appendChild(widthInput);
+
+  var heightInput = document.createElement('input');
+  heightInput.type = 'number';
+  heightInput.classList.add('height');
+  heightInput.required = true;
+  itemRow.appendChild(heightInput);
+
+  var weightInput = document.createElement('input');
+  weightInput.type = 'number';
+  weightInput.classList.add('weight');
+  weightInput.required = true;
+  itemRow.appendChild(weightInput);
+
+  var quantityInput = document.createElement('input');
+  quantityInput.type = 'number';
+  quantityInput.classList.add('quantity');
+  quantityInput.required = true;
+  itemRow.appendChild(quantityInput);
+
+  var label = document.createElement('label');
+  label.textContent = ' Item ' + itemNumber + ':';
+  itemRow.appendChild(label);
+
+  document.getElementById('itemsContainer').appendChild(itemRow);
+}
+  </script>
+</head>
+<body>
+  <h1>Shipping Fee Calculator</h1>
+  <form>
+    <div id="itemsContainer">
+      <div class="item">
+        <table>
+          <tr>
+            <th>Length (cm):</th>
+            <th>Width (cm):</th>
+            <th>Height (cm):</th>
+            <th>Weight (kg):</th>
+            <th>Quantity:</th>
+          </tr>
+          <tr>
+            <td><input  type="number" class="length" required></td>
+            <td><input type="number" class="width" required></td>
+            <td><input type="number" class="height" required></td>
+            <td><input type="number" class="weight" required></td>
+            <td><input type="number" class="quantity" required></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <br>
+    <button type="button" onclick="addItem()">Add Item</button>
+    <br><br>
+    <label for="temperatureCondition">Temperature Condition:</label>
+    <select id="temperatureCondition">
+      <option value="ambient">Ambient</option>
+      <option value="chill">Chill</option>
+    </select>
+    <br><br>
+    <button type="button" onclick="calculateShippingFee()">Calculate Shipping Fee</button>
+  </form>
+  <br>
+  <div id="shippingFee"></div>
+</body>
