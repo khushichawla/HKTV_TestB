@@ -1,0 +1,46 @@
+Due to time constraints and the advanced knowledge and experience required, it was not feasible to implement the microservice for data
+migration and API development. Instead, I am providing a detailed approach outlining the necessary steps and considerations for the 
+implementation. The following is a step by step approach on creating the microservice with documentation and user guide in the Kubernetes
+environment for data migration from CSV to MySQL (MariaDB). In addition, the process of preparing indexing in the database after the
+migration along with the below API endpoint.
+
+1. Design the Microservice Architecture:
+- Determine the overall architecture of the microservice, considering factors such as scalability, fault tolerance, and performance.
+- Decide on the appropriate components, such as controllers, services, repositories, and models, based on the Spring Boot framework.
+
+2. Set Up the Kubernetes Environment:
+- Set up a Kubernetes cluster or use an existing one to deploy and manage your microservice.
+- Configure necessary resources, such as pods, deployment, services, and ingress, to ensure proper deployment and accessibility.
+
+3. Prepare the Data Migration Process:
+- Write logic to read the CSV data and transform it into a format compatible with the database schema.
+- Establish a database connection to MariaDB and create tables based on the desired 3NF (Third Normal Form) schema.
+- Write code to insert the transformed data into the MariaDB database using appropriate ORM (Object-Relational Mapping) techniques.
+
+4. Implement Indexing in the Database:
+- Identify the fields that require indexing based on the expected search patterns.
+- Utilize the indexing capabilities provided by MariaDB to enhance search performance.
+- Create indexes on the relevant columns of the database tables.
+
+5. Write API Endpoint for Date-based Search:
+- Create a new endpoint in the microservice to handle the date-based search against the DATE_OCC field.
+- Design the endpoint as a POST request with a specified path.
+- Define the request body format, including the from_date and to_date fields.
+- Implement the logic to query the database based on the provided date range and retrieve the relevant data.
+- Structure the response to match the specified format, including the required fields and their corresponding data types.
+
+6. Generate API Documentation and User Guide:
+- Utilize tools like Swagger or Springfox to generate API documentation automatically based on the implemented endpoints.
+- Document the purpose, input format, response format, and any additional details for each API endpoint.
+- Create a user guide that explains how to interact with the microservice, including authentication (if required), endpoint usage, and response interpretation.
+
+7. Considerations for Large Data File:
+- Evaluate the size of the main data file and assess the approach for feeding the data to the microservice.
+- Consider strategies such as batching or streaming to handle large data files efficiently.
+- Implement appropriate mechanisms to handle errors, retries, and ensure data integrity during the migration process.
+
+8. Test and Deploy the Microservice:
+- Write unit tests to validate the functionality of the microservice, including the data migration, indexing, and API endpoints.
+- Deploy the microservice in your Kubernetes environment, ensuring all necessary configurations and dependencies are in place.
+- Monitor the microservice's performance and troubleshoot any issues that arise.
+- Conduct thorough testing to ensure the integrity and accuracy of the data migration process and API functionality.
