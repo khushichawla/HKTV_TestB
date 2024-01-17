@@ -1,0 +1,34 @@
+{
+  "apiEndpoint": "/api/shipping/fee",
+  "method": "POST",
+  "requestBody": {
+    "items": [
+      {
+        "length": 10,
+        "width": 8,
+        "height": 5,
+        "weight": 2.5,
+        "quantity": 3
+      },
+      {
+        "length": 15,
+        "width": 12,
+        "height": 6,
+        "weight": 4.2,
+        "quantity": 2
+      }
+    ],
+    "temperatureCondition": "chill"
+  },
+  "response": {
+    "shippingFee": 45.6
+  },
+  "responseProperties": {
+    "shippingFee": "number"
+  },
+  "statusCodes": {
+    "200": "OK",
+    "400": "Bad Request",
+    "500": "Internal Server Error"
+  }
+}
